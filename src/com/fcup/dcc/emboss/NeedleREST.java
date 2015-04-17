@@ -22,19 +22,21 @@ public class NeedleREST {
 	public static void main(String[] args) {
 		client = new DefaultHttpClient();
 		try {
-			System.out.println(getParameters());
+			for (String parameter : getParameters()) {
+				getParameterDetails(parameter);
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static List<String> getParameters() throws ParserConfigurationException, SAXException, IOException {
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse("http://www.ebi.ac.uk/Tools/services/rest/emboss_needle/parameters/");
 		doc.getDocumentElement().normalize();
-		
+
 		List<String> parametersList = new LinkedList<String>();
 
 		if (doc.hasChildNodes()) {
@@ -46,8 +48,35 @@ public class NeedleREST {
 				}
 			}
 		}
-		
+
 		return parametersList;
+	}
+
+	public static void getParameterDetails(String parameter) throws SAXException, IOException, ParserConfigurationException {
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		Document doc = dBuilder.parse("http://www.ebi.ac.uk/Tools/services/rest/emboss_needle/parameterdetails/" + parameter);
+		doc.getDocumentElement().normalize();
+
+		if (doc.hasChildNodes()) {
+			NodeList nList = doc.getElementsByTagName("name");
+			for (int temp = 0; temp < nList.getLength(); temp++) {
+				Node nNode = nList.item(temp);		 
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					System.out.println(nNode.getTextContent() + " (" + parameter + ")");
+				}
+			}
+			
+			nList = doc.getElementsByTagName("description");
+			for (int temp = 0; temp < nList.getLength(); temp++) {
+				Node nNode = nList.item(temp);		 
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					System.out.println(nNode.getTextContent());
+				}
+			}
+			
+			System.out.println();
+		}
 	}
 
 	/*public static String makeRequest(String url) throws ClientProtocolException, IOException {
