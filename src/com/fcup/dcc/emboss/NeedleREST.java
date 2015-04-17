@@ -22,14 +22,14 @@ public class NeedleREST {
 	public static void main(String[] args) {
 		client = new DefaultHttpClient();
 		try {
-			getParameters();
+			System.out.println(getParameters());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public static void getParameters() throws ParserConfigurationException, SAXException, IOException {
+	public static List<String> getParameters() throws ParserConfigurationException, SAXException, IOException {
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse("http://www.ebi.ac.uk/Tools/services/rest/emboss_needle/parameters/");
@@ -37,8 +37,10 @@ public class NeedleREST {
 
 		//System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 		if (doc.hasChildNodes()) {
-			System.out.println(parseGetParametersXML(doc.getChildNodes()));
+			return parseGetParametersXML(doc.getChildNodes());
 		}
+		
+		return null;
 	}
 
 	private static List<String> parseGetParametersXML(NodeList nodeList) {
@@ -64,7 +66,6 @@ public class NeedleREST {
 					}
 				}*/
 				
-				System.out.println(tempNode.getNodeName() + " - " + tempNode.getTextContent());
 				if (tempNode.getNodeName().equals("id"))
 					parametersList.add(tempNode.getTextContent());
 
