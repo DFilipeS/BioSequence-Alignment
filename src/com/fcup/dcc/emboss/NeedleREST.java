@@ -34,47 +34,16 @@ public class NeedleREST {
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse("http://www.ebi.ac.uk/Tools/services/rest/emboss_needle/parameters/");
 		doc.getDocumentElement().normalize();
-
-		//System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-		if (doc.hasChildNodes()) {
-			return parseGetParametersXML(doc.getChildNodes());
-		}
 		
-		return null;
-	}
-
-	private static List<String> parseGetParametersXML(NodeList nodeList) {
 		List<String> parametersList = new LinkedList<String>();
-		
-		for (int count = 0; count < nodeList.getLength(); count++) {
-			Node tempNode = nodeList.item(count);
 
-			// make sure it's element node.
-			if (tempNode.getNodeType() == Node.ELEMENT_NODE) {
-				// get node name and value
-				/*System.out.println("\nNode Name =" + tempNode.getNodeName() + " [OPEN]");
-				System.out.println("Node Value =" + tempNode.getTextContent());
-
-				if (tempNode.hasAttributes()) {
-					// get attributes names and values
-					NamedNodeMap nodeMap = tempNode.getAttributes();
-
-					for (int i = 0; i < nodeMap.getLength(); i++) {
-						Node node = nodeMap.item(i);
-						System.out.println("attr name : " + node.getNodeName());
-						System.out.println("attr value : " + node.getNodeValue());
-					}
-				}*/
-				
-				if (tempNode.getNodeName().equals("id"))
-					parametersList.add(tempNode.getTextContent());
-
-				if (tempNode.hasChildNodes()) {
-					// loop again if has child nodes
-					parametersList.addAll(parseGetParametersXML(tempNode.getChildNodes()));
+		if (doc.hasChildNodes()) {
+			NodeList nList = doc.getElementsByTagName("id");
+			for (int temp = 0; temp < nList.getLength(); temp++) {
+				Node nNode = nList.item(temp);		 
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					parametersList.add(nNode.getTextContent());
 				}
-
-				//System.out.println("Node Name =" + tempNode.getNodeName() + " [CLOSE]");
 			}
 		}
 		
