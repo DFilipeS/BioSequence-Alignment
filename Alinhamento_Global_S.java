@@ -76,7 +76,7 @@ class Alinhamento_Global_S {
     			i--;
     			j--;
     		}
-    		else if(i>0 && (fMatrix[i][j] == fMatrix[i-1][j-1] + gap)){
+    		else if(i>0 && (fMatrix[i][j] == fMatrix[i-1][j] + gap)){
     			alignmentA = x.charAt(i-1) + alignmentA;
     			alignmentB = "_" + alignmentB;
     			i--;	
