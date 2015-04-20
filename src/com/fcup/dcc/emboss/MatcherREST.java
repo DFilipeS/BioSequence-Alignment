@@ -34,7 +34,8 @@ public class NeedleREST {
 	public static List<String> getParameters() throws ParserConfigurationException, SAXException, IOException {
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse("http://www.ebi.ac.uk/Tools/services/rest/emboss_needle/parameters/");
+		Document doc = dBuilder.parse("http://www.ebi.ac.uk/Tools/services/rest/emboss_matcher/parameters/");
+		
 		doc.getDocumentElement().normalize();
 
 		List<String> parametersList = new LinkedList<String>();
@@ -55,7 +56,7 @@ public class NeedleREST {
 	public static void getParameterDetails(String parameter) throws SAXException, IOException, ParserConfigurationException {
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		Document doc = dBuilder.parse("http://www.ebi.ac.uk/Tools/services/rest/emboss_needle/parameterdetails/" + parameter);
+		Document doc = dBuilder.parse("http://www.ebi.ac.uk/Tools/services/rest/emboss_matcher/parameterdetails/" + parameter);
 		doc.getDocumentElement().normalize();
 
 		if (doc.hasChildNodes()) {
