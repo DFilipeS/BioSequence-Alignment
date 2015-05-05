@@ -1,2 +1,2 @@
-sudo javac -cp "../lib/*" NeedleREST.java
-java -cp .:../lib/*  NeedleREST 
+sudo javac -cp "../lib/*" PSA.java
+java -cp .:../lib/*  PSA input1 input2 
